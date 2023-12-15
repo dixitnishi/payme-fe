@@ -1,27 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 
 function Transaction() {
-  const [rowData, setRowData] = useState([
-    {
-      message: "Falcon 9",
-      timestamp: "2023-12-12T16:04:04",
-      status:"SUCCESS",
-      transactionType:"CREDIT",
-      amount: "150",
+  const [rowData, setRowData] = useState([]);
+
+  useEffect(() => {
+    async function fetchTransactions() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/transactions/get/10000002",
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+            },
+          }
+        );
+        const responseData = await response.json();
+
+        // here is where i can alter the mapping but to confirm whether is a best practice ?
+        setRowData(responseData);
+      } catch (error) {
+        console.log(error)
+      }
     }
-  ]);
+    fetchTransactions();
+  }, []);
 
   // Column Definitions: Defines & controls grid columns.
-  const [colDefs, setColDefs] = useState([
-    { field: "message", headerName: "Transaction Description", width:550 },
-    { field: "timestamp", headerName: "Date" },
-    { field: "status", headerName: "Status" },
+  const [colDefs] = useState([
+    { field: "description", headerName: "Transaction Description", width:720},
+    { field: "transactionTime", headerName: "Date" },
     { field: "transactionType", headerName: "Transaction Type" },
-    { field: "amount", headerName: "Amount (RS)" }
+    { field: "amount", headerName: "Amount (RS)" },
   ]);
+
   return (
     <div>
       <div className="w-9/12 bg-gray-400 p-4 rounded-lg flex justify-between">
@@ -29,8 +44,21 @@ function Transaction() {
           Transactions
         </div>
       </div>
+      <div>
+        <div>
+          Refresh
+        </div>
+        <div>
+          Download
+        </div>
+      </div>
       <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 780 }}>
-        <AgGridReact className="bg-slate-200" rowData={rowData} columnDefs={colDefs} pagination={true} />
+        <AgGridReact
+          className="bg-slate-200"
+          rowData={rowData}
+          columnDefs={colDefs}
+          pagination={true}
+        />
       </div>
     </div>
   );

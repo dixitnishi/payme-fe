@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Addmoney from "./Addmoney";
 import Transfermoney from "./Transfermoney";
 
 function Wallet() {
+  const renderContent = () => {
+    switch (selectedButton) {
+      case "addmoney":
+        return <Addmoney />;
+      case "transfermoney":
+        return <Transfermoney />;
+      default:
+        return <Addmoney />;
+    }
+  };
+
+  const [selectedButton, setSelectedButton] = useState("addmoney");
+
+  const handleSelectButton = (buttonType) => {
+    setSelectedButton(buttonType);
+  };
+
   return (
     <div>
       <div className="w-9/12 bg-gray-400 p-4 rounded-lg flex justify-between">
@@ -10,8 +27,19 @@ function Wallet() {
           Wallet Operations
         </div>
       </div>
-      <Addmoney/>
-      <Transfermoney></Transfermoney>
+      <button
+        type="button"
+        onClick={() => handleSelectButton("addmoney")}
+        className="rounded-md bg-slate-200 mt-6 ml-6 px-8 py-2 text-sm font-semibold text-black hover:bg-slate-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+        Add Amount
+      </button>
+      <button
+        type="button"
+        onClick={() => handleSelectButton("transfermoney")}
+        className="rounded-md bg-slate-200 ml-5 px-8 py-2 text-sm font-semibold hover:bg-slate-300 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+        Transfer Amount
+      </button>
+      {renderContent()}
     </div>
   );
 }

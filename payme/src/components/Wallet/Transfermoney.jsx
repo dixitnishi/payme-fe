@@ -4,7 +4,7 @@ function Transfermoney() {
   return (
     <div className="bg-slate-200 shadow-md mt-12 w-full p-16 rounded-lg">
       <form action="#" method="POST" className="mt-8">
-        <div className="space-y-5">
+        <div className="space-y-8">
           <div>
             <label
               htmlFor="accountId"

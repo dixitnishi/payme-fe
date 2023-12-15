@@ -2,9 +2,9 @@ import React from "react";
 
 function Addmoney() {
   return (
-    <div className="bg-slate-200 shadow-md mt-12 w-full p-16 rounded-lg">
+    <div className="bg-slate-200 mt-12 w-full px-12 py-8 rounded-lg">
       <form action="#" method="POST" className="mt-8">
-        <div className="space-y-5">
+        <div className="space-y-8">
           <div>
             <label
               htmlFor="amount"
@@ -15,7 +15,7 @@ function Addmoney() {
             <div className="mt-2">
               <input
                 className="flex h-10 rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                type="email"
+                type="text"
                 placeholder="Amount"
                 id="amount"></input>
             </div>
