@@ -1,4 +1,5 @@
-import React from "react";
+import {React,useEffect} from "react";
+import { getAuthToken } from "../../utils/Auth";
 
 function Dashboard() {
   return (
@@ -14,16 +15,6 @@ function Dashboard() {
         </h2>
         <div className="">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            explicabo tenetur nihil maxime, recusandae doloribus molestias
-            temporibus, iure cum expedita illo quam fugiat adipisci et qui in
-            quas voluptatibus. Voluptas! Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Quod iure, nam inventore repudiandae aut odit eius
-            mollitia at provident maiores et quasi voluptates necessitatibus!
-            Repudiandae soluta vero consequuntur error quidem! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. Eveniet molestiae
-            quibusdam a reiciendis natus ab placeat illum, quaerat quae eum ea,
-            quam sed maiores! Libero vitae veritatis est nostrum laboriosam!
           </p>
         </div>
       </div>

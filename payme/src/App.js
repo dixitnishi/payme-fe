@@ -1,23 +1,20 @@
-
 import Homepage from "./components/Homepage/Homepage";
 import Layout from "./components/Layout/Layout";
 import Login from "./components/Login/Login";
 import { Signup } from "./components/Signup/Signup";
-import "./index.css"
-import {Routes,Route} from "react-router-dom"
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { checkAuthLoader } from "./utils/Auth";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Homepage /> },
+  { path: "signin", element: <Login /> },
+  { path: "signup", element: <Signup /> },
+  { path: "wallet", element: <Layout />, loader: checkAuthLoader },
+]);
 
 function App() {
-  return (
-    <div>
-      {/* <Homepage></Homepage> */}
-      <Routes>
-        <Route path='/' element={<Homepage/>}></Route>
-        <Route path='SignIn' element={<Login/>}></Route>
-        <Route path='SignUp' element={<Signup/>}></Route>
-        <Route path='wallet' element={<Layout/>}></Route>
-      </Routes>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -49,14 +49,14 @@ function Navbar() {
           </ul>
         </div>
         <div className="hidden space-x-2 lg:block">
-          <Link to="SignUp">
+          <Link to="/signup">
             <button
               type="button"
               className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
               Sign Up
             </button>
           </Link>
-          <Link to='SignIn'>
+          <Link to="signin">
             <button
               type="button"
               className="rounded-md border border-black px-3 py-2 text-sm font-semibold hover:bg-black/25 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">

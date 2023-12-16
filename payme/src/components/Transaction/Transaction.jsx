@@ -2,36 +2,25 @@ import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
+import { MdOutlineRefresh } from "react-icons/md";
+import { FaFileDownload } from "react-icons/fa";
+import { getAuthToken } from "../../utils/Auth";
+import axios from 'axios'
 
 function Transaction() {
   const [rowData, setRowData] = useState([]);
+  const accountNumber = 1000002;
+  const token = getAuthToken();
 
-  useEffect(() => {
-    async function fetchTransactions() {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/transactions/get/10000002",
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-            },
-          }
-        );
-        const responseData = await response.json();
-
-        // here is where i can alter the mapping but to confirm whether is a best practice ?
-        setRowData(responseData);
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchTransactions();
-  }, []);
+  async function getTransactions() {
+    const response  = await axios.get("http://localhost:8080/transactions/get/100000002");
+    console.log(await response.json());
+  }
+  getTransactions();
 
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
-    { field: "description", headerName: "Transaction Description", width:720},
+    { field: "description", headerName: "Transaction Description", width: 720 },
     { field: "transactionTime", headerName: "Date" },
     { field: "transactionType", headerName: "Transaction Type" },
     { field: "amount", headerName: "Amount (RS)" },
@@ -44,15 +33,17 @@ function Transaction() {
           Transactions
         </div>
       </div>
-      <div>
-        <div>
-          Refresh
+      <div className="flex justify-end mr-20">
+        {/* To do - Onclick events to be applied here after the 
+        integration is completed for download and making and api request  */}
+        <div className="mr-4">
+          <MdOutlineRefresh size={30} />
         </div>
         <div>
-          Download
+          <FaFileDownload size={30} />
         </div>
       </div>
-      <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 780 }}>
+      <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 600 }}>
         <AgGridReact
           className="bg-slate-200"
           rowData={rowData}
