@@ -9,14 +9,29 @@ import axios from 'axios'
 
 function Transaction() {
   const [rowData, setRowData] = useState([]);
-  const accountNumber = 1000002;
   const token = getAuthToken();
 
-  async function getTransactions() {
-    const response  = await axios.get("http://localhost:8080/transactions/get/100000002");
-    console.log(await response.json());
-  }
-  getTransactions();
+  useEffect(() => {
+    async function fetchTransactions() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/transactions/get/10000002",
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization:"Bearer "+token
+            },
+          }
+        );
+        const responseData = await response.json();
+        setRowData(responseData);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchTransactions();
+  }, );
 
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([

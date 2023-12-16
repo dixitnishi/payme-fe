@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-
-
+import { useAuth } from "../../utils/AuthContext";
 
 function Login() {
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const email = useRef();
@@ -16,26 +16,26 @@ function Login() {
     try {
       const requestJson = {
         email: emailValue,
-        password: passwordValue
+        password: passwordValue,
       };
 
-      const response = await fetch(
-        "http://localhost:8080/api/v1/auth/login",
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestJson)
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestJson),
+      });
       const responseData = await response.json();
       const token = responseData.token;
-      localStorage.setItem('token',token);
-      navigate("/wallet")
+      localStorage.setItem("token", token);
+      if (localStorage.getItem("token")) {
+        login();
+      }
+      navigate("/wallet");
     } catch (error) {
-      // Add component which creates a dialogbox which basically depicts the 
-      console.log(error)
+      // Add component which creates a dialogbox which basically depicts the
+      console.log(error);
     }
   }
 

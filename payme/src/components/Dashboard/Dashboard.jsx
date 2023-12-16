@@ -2,6 +2,32 @@ import {React,useEffect} from "react";
 import { getAuthToken } from "../../utils/Auth";
 
 function Dashboard() {
+  const token = getAuthToken();
+  let data;
+
+  useEffect(() => {
+    async function fecthAccountDetails() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/account/get/10000002",
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization:"Bearer "+token
+            },
+          }
+        );
+        data = await response.json();
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fecthAccountDetails();
+  }, );
+
+
   return (
     <>
       <div className="flex justify-between p-2">
@@ -14,8 +40,7 @@ function Dashboard() {
           Account Details
         </h2>
         <div className="">
-          <p>
-          </p>
+          <p>Full name : {data.name}</p>
         </div>
       </div>
     </>
