@@ -27,8 +27,8 @@ function Login() {
         body: JSON.stringify(requestJson),
       });
       const responseData = await response.json();
-      const token = responseData.token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", responseData.token);
+      localStorage.setItem("accountId", responseData.accountId);
       if (localStorage.getItem("token")) {
         login();
       }

@@ -6,7 +6,6 @@ import { useAuth } from './AuthContext';
 const ProtectedRoute = ({ element }) => {
   const { authenticated } = useAuth();
   const redirectPath = authenticated ? '/wallet' : '/signin';
-
   return authenticated ? (
     element
   ) : (

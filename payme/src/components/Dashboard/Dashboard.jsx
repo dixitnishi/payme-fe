@@ -1,15 +1,15 @@
-import {React,useEffect} from "react";
+import {React,useEffect, useState} from "react";
 import { getAuthToken } from "../../utils/Auth";
 
 function Dashboard() {
   const token = getAuthToken();
-  let data;
+  const [data,setData] = useState({}); 
 
   useEffect(() => {
-    async function fecthAccountDetails() {
+    async function fetchAccountDetails() {
       try {
         const response = await fetch(
-          "http://localhost:8080/account/get/10000002",
+          `http://localhost:8080/account/get/${localStorage.getItem('accountId')}`,
           {
             method: "GET",
             headers: {
@@ -18,14 +18,19 @@ function Dashboard() {
             },
           }
         );
-        data = await response.json();
-
+        const responseBody  = await response.json();
+        const dataToBeShown = {
+          nameholder: responseBody.name,
+          accountId: responseBody.accountNo,
+          balance: responseBody.balance
+        }
+        setData(dataToBeShown);
       } catch (error) {
         console.log(error)
       }
     }
-    fecthAccountDetails();
-  }, );
+    fetchAccountDetails();
+  }, []);
 
 
   return (
@@ -40,7 +45,9 @@ function Dashboard() {
           Account Details
         </h2>
         <div className="">
-          <p>Full name : {data.name}</p>
+          <p>Full name : {data.nameholder}</p>
+          <p>Account number : {data.accountId}</p>
+          <p>Balance : {data.balance}</p>
         </div>
       </div>
     </>

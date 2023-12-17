@@ -1,23 +1,34 @@
 // AuthContext.js
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { getAuthToken } from "./Auth";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const initialAuthenticatedState = !!getAuthToken();
+  const [authenticated, setAuthenticated] = useState(initialAuthenticatedState);
+  const [accountId, setAccountId] = useState(null);
 
-  const login = () => {
-    setAuthenticated(true);
+  useEffect(() => {
+    const storedToken = getAuthToken();
+    if (storedToken) {
+      setAuthenticated(true);
+    }
+  }, []);
+
+  const login = (accountId) => {
+    setAuthenticated((prevState) => !prevState);
+    setAccountId(accountId)
   };
 
   const logout = () => {
-    // Perform logout logic (e.g., clear tokens)
-    localStorage.removeItem("token");
     setAuthenticated(false);
+    setAccountId(null);
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, login, logout }}>
+    <AuthContext.Provider value={{ authenticated, login, logout, accountId }}>
       {children}
     </AuthContext.Provider>
   );

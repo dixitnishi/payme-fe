@@ -5,7 +5,6 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import { MdOutlineRefresh } from "react-icons/md";
 import { FaFileDownload } from "react-icons/fa";
 import { getAuthToken } from "../../utils/Auth";
-import axios from 'axios'
 
 function Transaction() {
   const [rowData, setRowData] = useState([]);
@@ -15,7 +14,7 @@ function Transaction() {
     async function fetchTransactions() {
       try {
         const response = await fetch(
-          "http://localhost:8080/transactions/get/10000002",
+          `http://localhost:8080/transactions/get/${localStorage.getItem('accountId')}`,
           {
             method: "GET",
             headers: {
@@ -31,7 +30,7 @@ function Transaction() {
       }
     }
     fetchTransactions();
-  }, );
+  }, []);
 
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
