@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
+import ErrorBox from "../Error/ErrorBox";
 
 function Login() {
   const { login } = useAuth();
@@ -10,7 +11,10 @@ function Login() {
   const email = useRef();
   const passwordExtracted = useRef();
 
+  const [loginStatus, setLoginStatus] = useState(null);
+
   async function handleLogin() {
+    setLoginStatus(null);
     const emailValue = email.current.value;
     const passwordValue = passwordExtracted.current.value;
     try {
@@ -27,15 +31,22 @@ function Login() {
         body: JSON.stringify(requestJson),
       });
       const responseData = await response.json();
-      localStorage.setItem("token", responseData.token);
-      localStorage.setItem("accountId", responseData.accountId);
-      if (localStorage.getItem("token")) {
-        login();
+
+      if (response.status === 200) {
+        setLoginStatus("success");
+        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("accountId", responseData.accountId);
+        if (localStorage.getItem("token")) {
+          login();
+        }
+        navigate("/wallet");
+      } else {
+        setLoginStatus(
+          responseData.message || "An error occurred during signup."
+        );
       }
-      navigate("/wallet");
     } catch (error) {
-      // Add component which creates a dialogbox which basically depicts the
-      console.log(error);
+      setLoginStatus("Network error. Please try again later.");
     }
   }
 
@@ -103,6 +114,7 @@ function Login() {
                   Sign In <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
+              {loginStatus && <ErrorBox message={loginStatus} />}
             </div>
           </form>
         </div>

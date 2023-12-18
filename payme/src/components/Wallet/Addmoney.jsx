@@ -1,18 +1,40 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { getAuthToken } from "../../utils/Auth";
+import ErrorBox from "../Error/ErrorBox";
+import { useNavigate } from "react-router-dom";
 
 function Addmoney() {
+
+  const [errorState,setErrorState] = useState(null);
   const amount = useRef();
   const token = getAuthToken();
+  const navigate = useNavigate();
+  
 
   const accountId = localStorage.getItem("accountId");
 
   async function handleAddMoney() {
+    setErrorState(null);
+
+    const enteredAmount = amount.current.value.trim();
+
+    if (!enteredAmount) {
+      setErrorState("Please enter a valid amount.");
+      return;
+    }
+
+    const amountValue = parseFloat(enteredAmount);
+
+    if (isNaN(amountValue) || !Number.isFinite(amountValue) || amountValue <= 0) {
+      setErrorState("Please enter a valid amount value.");
+      return;
+    }
+
     try {
       const requestJson = {
         senderAccountNumber: accountId,
         receiverAccountNumber: "",
-        amount: amount.current.value,
+        amount: enteredAmount,
         transactionType: "CREDIT",
       };
       console.log(requestJson);
@@ -25,12 +47,22 @@ function Addmoney() {
         },
         body: JSON.stringify(requestJson)
       });
-      if (response) {
-        console.log("Money added successfully");
+
+      const responseData = await response.json();
+      if (response.ok) {
+        setErrorState("success");
+      }
+      else if(response.status === 401){
+        navigate("/signin")
+      }
+      else{
+        setErrorState(
+          responseData.message || "An error occurred while adding money!"
+        );
       }
       amount.current.value = "";
     } catch (error) {
-      console.log(error);
+      setErrorState("Network error. Please try again later.")
     }
   }
 
@@ -59,6 +91,7 @@ function Addmoney() {
               Add Amount
             </button>
           </div>
+          {errorState && <ErrorBox message={errorState}/>}
         </div>
       </form>
     </div>

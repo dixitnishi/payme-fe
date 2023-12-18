@@ -1,37 +1,44 @@
-import {React,useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import { getAuthToken } from "../../utils/Auth";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const token = getAuthToken();
-  const [data,setData] = useState({}); 
+  const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchAccountDetails() {
       try {
         const response = await fetch(
-          `http://localhost:8080/account/get/${localStorage.getItem('accountId')}`,
+          `http://localhost:8080/account/get/${localStorage.getItem(
+            "accountId"
+          )}`,
           {
             method: "GET",
             headers: {
               accept: "application/json",
-              Authorization:"Bearer "+token
+              Authorization: "Bearer " + token,
             },
           }
         );
-        const responseBody  = await response.json();
+        const responseBody = await response.json();
         const dataToBeShown = {
           nameholder: responseBody.name,
           accountId: responseBody.accountNo,
-          balance: responseBody.balance
+          balance: responseBody.balance,
+        };
+        if (response.ok) {
+          setData(dataToBeShown);
+        } else if (response.status === 401) {
+          navigate("/signin");
         }
-        setData(dataToBeShown);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     fetchAccountDetails();
   }, []);
-
 
   return (
     <>

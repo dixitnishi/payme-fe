@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
-import { useAuth } from "../../utils/AuthContext";
+import React, { useRef, useState } from "react";
 import { getAuthToken } from "../../utils/Auth";
+import ErrorBox from "../Error/ErrorBox";
+import { useNavigate } from "react-router-dom";
 
 function Transfermoney() {
   const amount  = useRef();
@@ -8,12 +9,40 @@ function Transfermoney() {
   const accountId = localStorage.getItem('accountId');
   const token = getAuthToken();
 
+  const navigate = useNavigate();
+
+  const [errorState,setErrorState] = useState(null);
+
   async function handleTransferMoney() {
+    setErrorState(null);
+
+    const enteredAmount = amount.current.value.trim();
+
+    const receiverAccountId = receiverWalletId.current.value.trim();
+
+    if(receiverAccountId.length<8 || receiverAccountId.length >8){
+      setErrorState("Please enter a valid benificiary wallet id. Thanks!");
+      return;
+    }
+
+
+    if (!enteredAmount) {
+      setErrorState("Please enter a valid amount.");
+      return;
+    }
+
+    const amountValue = parseFloat(enteredAmount);
+
+    if (isNaN(amountValue) || !Number.isFinite(amountValue) || amountValue <= 0) {
+      setErrorState("Please enter a valid amount value.");
+      return;
+    }
+
     try {
       const requestJson = {
         senderAccountNumber: accountId,
         receiverAccountNumber: receiverWalletId.current.value,
-        amount: amount.current.value,
+        amount: enteredAmount,
         transactionType: "DEBIT",
       };
 
@@ -25,13 +54,22 @@ function Transfermoney() {
         },
         body: JSON.stringify(requestJson),
       });
-      if(response){
-        console.log("Money added successfully")
+      const responseData = await response.json();
+      if(response.ok){
+        setErrorState("success")
+      }
+      else if(response.status === 401){
+        navigate("/signin")
+      }
+      else{
+        setErrorState(
+          responseData.message || "An error occurred while adding money!"
+        );
       }
       amount.current.value = "";
       receiverWalletId.current.value="";
     } catch (error) {
-      console.log(error);
+      setErrorState("Network error. Please try again later.")
     }
   }
 
@@ -74,6 +112,7 @@ function Transfermoney() {
           <div className="bg-gray-400 flex justify-center w-40 font-medium hover:bg-slate-300 px-2 py-2 rounded-xl">
             <button type="button" onClick={handleTransferMoney}>Transfer Amount</button>
           </div>
+          {errorState && <ErrorBox message={errorState}/>}
         </div>
       </form>
     </div>

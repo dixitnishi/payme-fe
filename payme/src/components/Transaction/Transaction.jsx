@@ -5,13 +5,20 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import { MdOutlineRefresh } from "react-icons/md";
 import { FaFileDownload } from "react-icons/fa";
 import { getAuthToken } from "../../utils/Auth";
+import ErrorBox from "../Error/ErrorBox";
+import { useNavigate } from "react-router-dom";
 
 function Transaction() {
   const [rowData, setRowData] = useState([]);
   const token = getAuthToken();
+  const [errorState,setErrorState] = useState(null);
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     async function fetchTransactions() {
+      setErrorState(null);
       try {
         const response = await fetch(
           `http://localhost:8080/transactions/get/${localStorage.getItem('accountId')}`,
@@ -23,10 +30,21 @@ function Transaction() {
             },
           }
         );
-        const responseData = await response.json();
-        setRowData(responseData);
+        const responseData = await response.json()
+        if(response.ok){
+          setRowData(responseData);
+        }
+        else if(response.status === 401){
+          navigate("/signin")
+        }
+        else{
+          setErrorState(
+            responseData.message || "An error occurred while adding money!"
+          );
+        }
+        
       } catch (error) {
-        console.log(error)
+        setErrorState("Network error. Please try again later.")
       }
     }
     fetchTransactions();
@@ -47,16 +65,16 @@ function Transaction() {
           Transactions
         </div>
       </div>
-      <div className="flex justify-end mr-20">
-        {/* To do - Onclick events to be applied here after the 
-        integration is completed for download and making and api request  */}
+      {errorState && <ErrorBox message={errorState}/>}
+      {!errorState && <div className="flex justify-end mr-20">
         <div className="mr-4">
           <MdOutlineRefresh size={30} />
         </div>
         <div>
           <FaFileDownload size={30} />
         </div>
-      </div>
+      </div>}
+      
       <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 600 }}>
         <AgGridReact
           className="bg-slate-200"

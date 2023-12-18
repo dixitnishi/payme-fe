@@ -1,44 +1,66 @@
-import React, { useRef } from "react";
+import { React, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import ErrorBox from "../Error/ErrorBox";
 
 export function Signup() {
-
   const email = useRef();
   const name = useRef();
   const passwordEntered = useRef();
 
-  let signUpSuccess = false;
-
-
+  const [signUpStatus, setSignUpStatus] = useState(null);
 
   async function handleSignup() {
-    
+    setSignUpStatus(null);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.current.value)) {
+      setSignUpStatus("Please enter a valid email address.");
+      return;
+    }
+
+    // const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
+    // const isPasswordValid = passwordRegex.test(passwordEntered.current.value);
+
+    // if (!isPasswordValid) {
+    //   setSignUpStatus(
+    //     "Password must be at least 8 characters long and include one uppercase letter, one number, and one special character."
+    //   );
+    //   return;
+    // }
 
     try {
       const requestJson = {
         email: email.current.value,
         password: passwordEntered.current.value,
-        name: name.current.value
+        name: name.current.value,
       };
 
-      const response = await fetch("http://localhost:8080/api/v1/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestJson),
-      });
-      if(response.status === 200){
-        signUpSuccess = true;
+      const response = await fetch(
+        "http://localhost:8080/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestJson),
+        }
+      );
+      if (response.status === 200) {
+        setSignUpStatus("success");
+      } else {
+        const responseData = await response.json();
+        setSignUpStatus(
+          responseData.message || "An error occurred during signup."
+        );
       }
 
+      email.current.value = "";
+      passwordEntered.current.value = "";
+      name.current.value = "";
     } catch (error) {
-      console.log(error);
+      setSignUpStatus("Network error. Please try again later.");
     }
   }
-
-
 
   return (
     <section>
@@ -101,8 +123,8 @@ export function Signup() {
                   <label
                     htmlFor="password"
                     className="text-base font-medium text-gray-900">
-                    {" "}            {/* To do implement routing, then use Link provided from react router dom and redirect to the login page  */}
-
+                    {" "}
+                    {/* To do implement routing, then use Link provided from react router dom and redirect to the login page  */}
                     Password{" "}
                   </label>
                 </div>
@@ -123,7 +145,7 @@ export function Signup() {
                   Create Wallet <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
-              {signUpSuccess && <p>Sign up was successfull please go to login page and login with credentials</p>}
+              {signUpStatus && <ErrorBox message={signUpStatus} />}
             </div>
           </form>
         </div>
