@@ -3,11 +3,12 @@ import Dashboard from "../Dashboard/Dashboard";
 import Wallet from "../Wallet/Wallet";
 import Transaction from "../Transaction/Transaction";
 import { useAuth } from "../../utils/AuthContext";
+import Cashback from "../Cashback/Cashback";
 
 function Rightpanel({ selectedButton }) {
   const { authenticated, logout } = useAuth();
 
-  function handleSignout(){
+  function handleSignout() {
     logout();
   }
 
@@ -19,6 +20,8 @@ function Rightpanel({ selectedButton }) {
         return <Dashboard />;
       case "transactions":
         return <Transaction />;
+      case "cashbacks":
+        return <Cashback />;
       default:
         return <Dashboard />;
     }

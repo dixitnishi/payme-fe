@@ -25,8 +25,8 @@ function Leftpanel({onSelectButton}) {
       <div onClick={() => handleButtonClick('transactions')} className="flex justify-center font-semibold bg-gray-200 m-2 hover:bg-slate-300 cursor-pointer">
         Transactions
       </div>
-      <div onClick={() => handleButtonClick('settings')} className="flex justify-center font-semibold bg-gray-200 m-2 hover:bg-slate-300 cursor-pointer">
-        Settings
+      <div onClick={() => handleButtonClick('cashbacks')} className="flex justify-center font-semibold bg-gray-200 m-2 hover:bg-slate-300 cursor-pointer">
+        Cashbacks
       </div>
     </div>
   );
