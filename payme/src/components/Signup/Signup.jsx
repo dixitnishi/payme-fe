@@ -18,15 +18,15 @@ export function Signup() {
       return;
     }
 
-    // const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
-    // const isPasswordValid = passwordRegex.test(passwordEntered.current.value);
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
+    const isPasswordValid = passwordRegex.test(passwordEntered.current.value);
 
-    // if (!isPasswordValid) {
-    //   setSignUpStatus(
-    //     "Password must be at least 8 characters long and include one uppercase letter, one number, and one special character."
-    //   );
-    //   return;
-    // }
+    if (!isPasswordValid) {
+      setSignUpStatus(
+        "Password must be at least 8 characters long and include one uppercase letter, one number, and one special character."
+      );
+      return;
+    }
 
     try {
       const requestJson = {
