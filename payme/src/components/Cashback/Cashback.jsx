@@ -46,7 +46,7 @@ function Cashback() {
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
     { field: "description", headerName: "Cashback Description", width: 720 },
-    { field: "CashbackTime", headerName: "Date" },
+    { field: "transactionTime", headerName: "Date" },
     { field: "cashbackAmount", headerName: "Amount (RS)" },
   ]);
 

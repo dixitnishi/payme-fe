@@ -7,11 +7,20 @@ export function Signup() {
   const email = useRef();
   const name = useRef();
   const passwordEntered = useRef();
+  const confirmPasswordEntered = useRef();
 
   const [signUpStatus, setSignUpStatus] = useState(null);
 
   async function handleSignup() {
     setSignUpStatus(null);
+
+    if (name.current.value.length <= 4) {
+      setSignUpStatus(
+        "Please enter a name having atleast 5 characters. Thanks!"
+      );
+      return;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.current.value)) {
       setSignUpStatus("Please enter a valid email address.");
@@ -25,6 +34,13 @@ export function Signup() {
       setSignUpStatus(
         "Password must be at least 8 characters long and include one uppercase letter, one number, and one special character."
       );
+      return;
+    }
+
+    if (
+      passwordEntered.current.value !== confirmPasswordEntered.current.value
+    ) {
+      setSignUpStatus("Passwords do not match.");
       return;
     }
 
@@ -134,6 +150,25 @@ export function Signup() {
                     type="password"
                     ref={passwordEntered}
                     placeholder="Password"
+                    id="password"></input>
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="text-base font-medium text-gray-900">
+                    {" "}
+                    {/* To do implement routing, then use Link provided from react router dom and redirect to the login page  */}
+                    Confirm Password{" "}
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <input
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    type="password"
+                    ref={confirmPasswordEntered}
+                    placeholder="Confirm Password"
                     id="password"></input>
                 </div>
               </div>

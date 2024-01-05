@@ -1,0 +1,21 @@
+/* .modal {
+    background-color: hsl(0deg 0% 100% / 100%);
+    outline: none;
+    box-shadow: rem(0 24px 38px) hsl(0deg 0% 0% / 14%),
+      rem(0 9px 46px) hsl(0deg 0% 0% / 12%),
+      rem(0 11px 15px) hsl(0deg 0% 0% / 20%);
+    border-radius: rem(32px);
+    max-height: 80vh;
+    background-color: #DED0B6;
+
+  } */
+  
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: hsl(0deg 0% 0% / 32%);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
