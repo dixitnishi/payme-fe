@@ -1,13 +1,16 @@
 import { React, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorBox from "../Error/ErrorBox";
+import { useAuth } from "../../utils/AuthContext";
 
 export function Signup() {
   const email = useRef();
   const name = useRef();
   const passwordEntered = useRef();
   const confirmPasswordEntered = useRef();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const [signUpStatus, setSignUpStatus] = useState(null);
 
@@ -26,9 +29,9 @@ export function Signup() {
       setSignUpStatus("Please enter a valid email address.");
       return;
     }
-
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
+    const passwordRegex = /^(?!.*\s)(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
     const isPasswordValid = passwordRegex.test(passwordEntered.current.value);
+
 
     if (!isPasswordValid) {
       setSignUpStatus(
@@ -61,10 +64,17 @@ export function Signup() {
           body: JSON.stringify(requestJson),
         }
       );
+      const responseData = await response.json();
+
       if (response.status === 200) {
-        setSignUpStatus("success");
+        setSignUpStatus("Success");
+        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("accountId", responseData.accountNo);
+        if (localStorage.getItem("token")) {
+          login();
+        }
+        navigate("/wallet");
       } else {
-        const responseData = await response.json();
         setSignUpStatus(
           responseData.message || "An error occurred during signup."
         );
@@ -73,6 +83,7 @@ export function Signup() {
       email.current.value = "";
       passwordEntered.current.value = "";
       name.current.value = "";
+      confirmPasswordEntered.current.value= "";
     } catch (error) {
       setSignUpStatus("Network error. Please try again later.");
     }
@@ -183,6 +194,13 @@ export function Signup() {
               {signUpStatus && <ErrorBox message={signUpStatus} />}
             </div>
           </form>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            <Link
+              to="/"
+              className="text-gray-600 transition-all duration-200 ml-1 text-lg">
+              Go to homepage
+            </Link>
+          </p>
         </div>
       </div>
     </section>

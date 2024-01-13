@@ -21,7 +21,7 @@ function Transfermoney() {
     const receiverAccountId = receiverWalletId.current.value.trim();
 
     if(receiverAccountId.length<8 || receiverAccountId.length >8){
-      setErrorState("Please enter a valid benificiary wallet id. Thanks!");
+      setErrorState("Wallet Id should be of length 8. Thanks!");
       return;
     }
 
@@ -68,6 +68,9 @@ function Transfermoney() {
       }
       amount.current.value = "";
       receiverWalletId.current.value="";
+      setTimeout(()=>{
+        setErrorState(null);
+      },5000)
     } catch (error) {
       setErrorState("Network error. Please try again later.")
     }

@@ -18,9 +18,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const signUp = (accountId) => {
+    setAuthenticated((prevState) => !prevState);
+    setAccountId(accountId);
+  };
+
   const login = (accountId) => {
     setAuthenticated((prevState) => !prevState);
-    setAccountId(accountId)
+    setAccountId(accountId);
   };
 
   const logout = () => {
@@ -31,7 +36,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, login, logout, accountId }}>
+    <AuthContext.Provider
+      value={{ authenticated, login, logout, accountId, signUp }}>
       {children}
     </AuthContext.Provider>
   );

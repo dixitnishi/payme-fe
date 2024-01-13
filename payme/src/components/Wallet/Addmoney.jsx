@@ -50,7 +50,6 @@ function Addmoney() {
 
       const responseData = await response.json();
       if (response.status === 200) {
-        console.log(responseData)
         setErrorState("Success, "+responseData.description);
       }
       else if(response.status === 401){
@@ -62,6 +61,9 @@ function Addmoney() {
         );
       }
       amount.current.value = "";
+      setTimeout(()=>{
+        setErrorState(null);
+      },5000)
     } catch (error) {
       setErrorState("Network error. Please try again later.")
     }

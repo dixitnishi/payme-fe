@@ -8,8 +8,6 @@ function Leftpanel({onSelectButton}) {
     onSelectButton(buttonType);
   };
 
-
-
   return (
     <div className="bg-gray-400 ml-7 w-96 shadow-xl mr-5 p-2 rounded-lg">
       <div className="flex text-4xl font-bold leading-tight text-black p-4">

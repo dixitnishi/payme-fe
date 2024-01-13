@@ -61,17 +61,6 @@ function Transaction() {
         </div>
       </div>
       {errorState && <ErrorBox message={errorState} />}
-      {!errorState && (
-        <div className="flex justify-end mr-20">
-          <div className="mr-4">
-            <MdOutlineRefresh size={30} />
-          </div>
-          <div className="hover:bg-slate-300">
-            <FaFileDownload size={30} />
-          </div>
-        </div>
-      )}
-
       <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 600 }}>
         <AgGridReact
           className="bg-slate-200"

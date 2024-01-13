@@ -7,12 +7,9 @@ import ErrorBox from "../Error/ErrorBox";
 function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-
   const email = useRef();
   const passwordExtracted = useRef();
-
   const [loginStatus, setLoginStatus] = useState(null);
-
   async function handleLogin() {
     setLoginStatus(null);
     const emailValue = email.current.value;
@@ -30,15 +27,15 @@ function Login() {
         },
         body: JSON.stringify(requestJson),
       });
+      console.log(response)
       const responseData = await response.json();
-
+    
       if (response.status === 200) {
-        setLoginStatus("success");
+        setLoginStatus("Success");
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("accountId", responseData.accountId);
-        if (localStorage.getItem("token")) {
-          login();
-        }
+        console.log("outside login", localStorage.getItem("token"));
+        login();
         navigate("/wallet");
       } else {
         setLoginStatus(
@@ -49,7 +46,6 @@ function Login() {
       setLoginStatus("Network error. Please try again later.");
     }
   }
-
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -72,6 +68,7 @@ function Login() {
               Create a free wallet
             </Link>
           </p>
+
           <form>
             <div className="space-y-5">
               <div>
@@ -117,6 +114,13 @@ function Login() {
               {loginStatus && <ErrorBox message={loginStatus} />}
             </div>
           </form>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            <Link
+              to="/"
+              className="text-gray-600 transition-all duration-200 ml-1 text-lg">
+              Go to homepage
+            </Link>
+          </p>
         </div>
       </div>
     </section>
