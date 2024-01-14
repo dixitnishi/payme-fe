@@ -37,8 +37,6 @@ function Addmoney() {
         amount: enteredAmount,
         transactionType: "CREDIT",
       };
-      console.log(requestJson);
-
       const response = await fetch("http://localhost:8080/transactions/add", {
         method: "POST",
         headers: {

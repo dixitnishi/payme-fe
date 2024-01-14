@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const initialAuthenticatedState = !!getAuthToken();
   const [authenticated, setAuthenticated] = useState(initialAuthenticatedState);
   const [accountId, setAccountId] = useState(null);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const storedToken = getAuthToken();

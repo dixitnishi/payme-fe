@@ -34,6 +34,7 @@ function Transaction() {
         if (response.ok) {
           setRowData(responseData);
         } else if (response.status === 401) {
+          console.log("inside else before nav")
           navigate("/signin");
         }
       } catch (error) {
@@ -63,6 +64,7 @@ function Transaction() {
       {errorState && <ErrorBox message={errorState} />}
       <div className="ag-theme-quartz ml-6 mt-9" style={{ height: 600 }}>
         <AgGridReact
+          id="ag-row"
           className="bg-slate-200"
           rowData={rowData}
           columnDefs={colDefs}

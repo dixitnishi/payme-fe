@@ -29,9 +29,9 @@ export function Signup() {
       setSignUpStatus("Please enter a valid email address.");
       return;
     }
-    const passwordRegex = /^(?!.*\s)(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
+    const passwordRegex =
+      /^(?!.*\s)(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
     const isPasswordValid = passwordRegex.test(passwordEntered.current.value);
-
 
     if (!isPasswordValid) {
       setSignUpStatus(
@@ -83,7 +83,7 @@ export function Signup() {
       email.current.value = "";
       passwordEntered.current.value = "";
       name.current.value = "";
-      confirmPasswordEntered.current.value= "";
+      confirmPasswordEntered.current.value = "";
     } catch (error) {
       setSignUpStatus("Network error. Please try again later.");
     }
@@ -107,7 +107,8 @@ export function Signup() {
             Already have an wallet?{" "}
             <Link
               to="/signin"
-              className="font-medium text-black transition-all duration-200 hover:underline">
+              className="font-medium text-black transition-all duration-200 hover:underline"
+            >
               Sign In
             </Link>
           </p>
@@ -116,7 +117,8 @@ export function Signup() {
               <div>
                 <label
                   htmlFor="name"
-                  className="text-base font-medium text-gray-900">
+                  className="text-base font-medium text-gray-900"
+                >
                   {" "}
                   Name{" "}
                 </label>
@@ -126,13 +128,15 @@ export function Signup() {
                     type="text"
                     placeholder="Full Name"
                     ref={name}
-                    id="name"></input>
+                    id="name"
+                  ></input>
                 </div>
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="text-base font-medium text-gray-900">
+                  className="text-base font-medium text-gray-900"
+                >
                   {" "}
                   Email address{" "}
                 </label>
@@ -142,14 +146,16 @@ export function Signup() {
                     type="email"
                     ref={email}
                     placeholder="Email"
-                    id="email"></input>
+                    id="email"
+                  ></input>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
-                    className="text-base font-medium text-gray-900">
+                    className="text-base font-medium text-gray-900"
+                  >
                     {" "}
                     {/* To do implement routing, then use Link provided from react router dom and redirect to the login page  */}
                     Password{" "}
@@ -161,16 +167,17 @@ export function Signup() {
                     type="password"
                     ref={passwordEntered}
                     placeholder="Password"
-                    id="password"></input>
+                    id="password"
+                  ></input>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
-                    className="text-base font-medium text-gray-900">
+                    className="text-base font-medium text-gray-900"
+                  >
                     {" "}
-                    {/* To do implement routing, then use Link provided from react router dom and redirect to the login page  */}
                     Confirm Password{" "}
                   </label>
                 </div>
@@ -180,14 +187,16 @@ export function Signup() {
                     type="password"
                     ref={confirmPasswordEntered}
                     placeholder="Confirm Password"
-                    id="password"></input>
+                    id="password"
+                  ></input>
                 </div>
               </div>
               <div>
                 <button
                   type="button"
                   onClick={handleSignup}
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80">
+                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                >
                   Create Wallet <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
@@ -197,7 +206,8 @@ export function Signup() {
           <p className="mt-2 text-center text-sm text-gray-600">
             <Link
               to="/"
-              className="text-gray-600 transition-all duration-200 ml-1 text-lg">
+              className="text-gray-600 transition-all duration-200 ml-1 text-lg"
+            >
               Go to homepage
             </Link>
           </p>

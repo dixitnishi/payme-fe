@@ -11,18 +11,21 @@ function SignoutModal({ isOpen, onRequestClose, handleSignout }) {
       overlayClassName={styles.overlay}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Signout Modal">
+      contentLabel="Signout Modal"
+    >
       <div className="p-4">
         <h2>Are you sure you want to sign out?</h2>
         <div className="flex justify-end mt-6 gap-4">
           <button
             className="px-4 hover:bg-slate-400 rounded-xl w-28"
-            onClick={onRequestClose}>
+            onClick={onRequestClose}
+          >
             No
           </button>
           <button
             className="px-4 bg-slate-400 rounded-lg w-28 hover:bg-slate-500 shadow-sm"
-            onClick={handleSignout}>
+            onClick={handleSignout}
+          >
             Yes
           </button>
         </div>
