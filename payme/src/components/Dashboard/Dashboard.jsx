@@ -27,6 +27,7 @@ function Dashboard() {
           nameholder: responseBody.name,
           accountId: responseBody.accountNo,
           balance: responseBody.balance,
+          email: responseBody.email
         };
         if (response.ok) {
           setData(dataToBeShown);
@@ -55,6 +56,7 @@ function Dashboard() {
           <p>Full name : {data.nameholder}</p>
           <p>Account number : {data.accountId}</p>
           <p>Balance : {data.balance}</p>
+          <p>Email : {data.email}</p>
         </div>
       </div>
     </>
