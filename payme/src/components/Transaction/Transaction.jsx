@@ -34,7 +34,7 @@ function Transaction() {
         if (response.ok) {
           setRowData(responseData);
         } else if (response.status === 401) {
-          console.log("inside else before nav")
+          console.log("inside else before nav");
           navigate("/signin");
         }
       } catch (error) {
@@ -44,15 +44,26 @@ function Transaction() {
     fetchTransactions();
   }, []);
 
-
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
     { field: "description", headerName: "Transaction Description", width: 720 },
     { field: "transactionTime", headerName: "Date" },
-    { field: "transactionType", headerName: "Transaction Type" },
+    {
+      field: "transactionType",
+      headerName: "Transaction Type",
+      cellStyle: (params) => {
+        const transactionType = params.data.transactionType;
+        if (transactionType === "CREDIT") {
+          return { color: "green", fontWeight: "bold" };
+        } else if (transactionType === "DEBIT") {
+          return { color: "red", fontWeight: "bold" };
+        } else {
+          return { color: "black" };
+        }
+      },
+    },
     { field: "amount", headerName: "Amount (RS)" },
   ]);
-
 
   return (
     <div>
