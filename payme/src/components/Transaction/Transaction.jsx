@@ -47,7 +47,13 @@ function Transaction() {
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
     { field: "description", headerName: "Transaction Description", width: 720 },
-    { field: "transactionTime", headerName: "Date" },
+    {
+      field: "transactionTime",
+      headerName: "Date",
+      valueFormatter: (params) => {
+        return formatDate(params.value);
+      },
+    },
     {
       field: "transactionType",
       headerName: "Transaction Type",
@@ -64,6 +70,19 @@ function Transaction() {
     },
     { field: "amount", headerName: "Amount (RS)" },
   ]);
+
+  const formatDate = (dateString) => {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div>
