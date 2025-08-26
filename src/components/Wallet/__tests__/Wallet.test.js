@@ -40,7 +40,7 @@ describe("Wallet component tests", () => {
     fireEvent.click(addMoneyButton);
     const addMoneyComponent = await waitFor(() =>
       getByText("Amount")
-    );
+    );handleAddMoney
     expect(addMoneyComponent).toBeInTheDocument();
   });
 
