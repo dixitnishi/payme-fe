@@ -23,6 +23,11 @@ function Addmoney() {
       return;
     }
 
+    if (!/^\d+(\.\d+)?$/.test(enteredAmount)) {
+      setErrorState("Please enter a valid numeric amount.");
+      return;
+    }
+
     const amountValue = parseFloat(enteredAmount);
 
     if (isNaN(amountValue) || !Number.isFinite(amountValue) || amountValue <= 0) {
@@ -55,7 +60,7 @@ function Addmoney() {
       }
       else{
         setErrorState(
-          responseData.message || "An error occurred while adding money!"
+          responseData.description || "An error occurred while adding money!"
         );
       }
       amount.current.value = "";

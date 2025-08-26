@@ -20,14 +20,24 @@ function Transfermoney() {
 
     const receiverAccountId = receiverWalletId.current.value.trim();
 
+
     if(receiverAccountId.length<8 || receiverAccountId.length >8){
       setErrorState("Wallet Id should be of length 8. Thanks!");
+      return;
+    }
+    if (!/^\d+(\.\d+)?$/.test(receiverAccountId)) {
+      setErrorState("Please enter a valid account Id");
       return;
     }
 
 
     if (!enteredAmount) {
       setErrorState("Please enter a valid amount.");
+      return;
+    }
+
+    if (!/^\d+(\.\d+)?$/.test(enteredAmount)) {
+      setErrorState("Please enter a valid numeric amount.");
       return;
     }
 
